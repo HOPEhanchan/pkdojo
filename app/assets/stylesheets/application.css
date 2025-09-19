@@ -86,3 +86,29 @@
 .ball-position.left   { left: 0; width: 33.33%; }
 .ball-position.center { left: 33.33%; width: 33.34%; }
 .ball-position.right  { left: 66.67%; width: 33.33%; }
+
+.pk-mini-stats{
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  z-index: 10000;
+  padding: 16px 32px;
+  font-size: 24px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(6px);
+  border-radius: 9999px;
+  pointer-events: none;
+  display: flex; gap: 10px; align-items: center;
+}
+.pk-mini-stats__link{
+  color: #fff;
+  text-decoration: underline;
+  pointer-events: auto;         /* リンクだけクリック可 */
+}
+
+@media (max-width: 480px){
+  .pk-mini-stats{ font-size: 11px; padding: 5px 10px; bottom: 8px; }
+}
