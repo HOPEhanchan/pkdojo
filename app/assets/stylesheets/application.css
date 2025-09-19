@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
  */
-/* フィールドは中央寄せ */
+/* gameの基本画面設定 */
 .pk-field {
   position: relative;
   width: min(90vw, 800px);
@@ -35,10 +35,10 @@
 /* キーパー：常に“体の中心”が指定位置に来る */
 .keeper {
   position: absolute;
-  bottom: 6%;                 /* 底からの距離（画像に合わせて微調整） */
+  bottom: 6%;                 /* 底からの距離 */
   left: 50%;                  /* いったん中央へ */
   transform: translateX(-50%);/* 画像の中心を left に合わせる */
-  width: clamp(320px, 22%, 260px); /* 画面に応じて自動拡縮（お好みで固定pxでもOK） */
+  width: clamp(320px, 22%, 260px); /* 画面に応じて自動拡縮 */
   z-index: 2;
 
   transition:
@@ -51,7 +51,7 @@
 .keeper.center-save { left: 50%;  }
 .keeper.right-save  { left: 80%;  }
 
-/* クリック面（最前面） */
+/* ３択の設定（z-index最前面にする） */
 .shoot-zone {
   position: absolute;
   top: 0; bottom: 0;
@@ -73,7 +73,7 @@
   cursor: pointer;
 }
 
-/* 結果画面：蹴った位置にボールを残す */
+/* 結果画面の設定：蹴った位置にボールを残す .shoot-zoneに合わせて見やすいレイアウト */
 .ball-position {
   position: absolute;
   top: 0; bottom: 0;
@@ -111,4 +111,95 @@
 
 @media (max-width: 480px){
   .pk-mini-stats{ font-size: 11px; padding: 5px 10px; bottom: 8px; }
+}
+
+/* --- Stats summaryのレウアウト --- */
+.stats-summary{
+  width: min(92vw, 800px);
+  margin: 12px auto 16px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.stats-summary .stat{
+  background: #f4f4f5; border: 1px solid #e5e7eb; border-radius: 10px;
+  padding: 8px 10px; text-align: center;
+}
+.stats-summary .stat span{ display:block; font-size:12px; color:#6b7280; }
+.stats-summary .stat strong{ font-size:18px; }
+
+/* --- Table書式設定 --- */
+.table-wrap{ width: min(92vw, 800px); margin: 0 auto; }
+.pk-table{ width:100%; border-collapse: collapse; font-size:14px; }
+.pk-table thead th{
+  position: sticky; top: 0;
+  background:#111827; color:#fff; text-align:left; padding:10px 8px;
+}
+.pk-table td, .pk-table th{ border-bottom:1px solid #e5e7eb; padding:10px 8px; }
+.pk-table tbody tr:nth-child(odd){ background:#fafafa; }
+
+/* 状態バッジ */
+.badge{display:inline-block; padding:4px 8px; border-radius:9999px; font-weight:700;}
+.badge-goal{ background:#dcfce7; color:#166534; }
+.badge-save{ background:#fee2e2; color:#991b1b; }
+
+/* 先頭文字だけ大文字（left/center/right → Left...） */
+.cap{ text-transform: capitalize; }
+
+/* --- モバイルで“カード風”に自動変形（読みやすさ重視） --- */
+@media (max-width: 640px){
+  .stats-summary{ grid-template-columns: repeat(3, 1fr); }
+  .pk-table thead{ display:none; }
+  .pk-table, .pk-table tbody, .pk-table tr, .pk-table td{ display:block; width:100%; }
+  .pk-table tr{ margin-bottom:10px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; background:#fff; }
+  .pk-table td{
+    border-bottom:1px solid #f3f4f6; padding:8px 12px; position:relative;
+  }
+  .pk-table td:last-child{ border-bottom:none; }
+  .pk-table td::before{
+    content: attr(data-label);
+    position:absolute; left:12px; top:8px; font-size:12px; color:#6b7280;
+  }
+  .pk-table td{ padding-top:24px; }
+}
+
+/* --- 戻るボタンを画面に固定配置 --- */
+.back-to-pk-btn {
+  position: fixed;
+  bottom: 20px;       /* 画面下から20px */
+  right: 20px;        /* 画面右から20px */
+  background: #111827;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 9999px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  z-index: 10000;
+  transition: background 0.2s;
+}
+
+.back-to-pk-btn:hover {
+  background: #1f2937;  /* hoverで少し明るく */
+}
+
+/* === 🍂Falling leaves🍂 === */
+.falling-layer {
+  pointer-events: none;
+  position: fixed;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+  z-index: 9999;
+}
+.leaf {
+  position: absolute; top: -10vh;
+  animation: leaf-fall 8s linear infinite;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.15));
+}
+@keyframes leaf-fall {
+  0%   { transform: translateY(-10vh) rotate(0deg);   opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0.95; }
 }

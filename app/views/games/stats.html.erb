@@ -1,36 +1,42 @@
 <h1 style="text-align:center;">戦績一覧</h1>
 
-<p style="text-align:center;">
-  試行数: <%= @stats[:total] %>
-  ゴール: <%= @stats[:goals] %>
-  セーブ: <%= @stats[:saves] %>
-  成功率: <%= @stats[:rate] %>
-  連続ゴール: <%= @stats[:streak] %>
-</p>
+<div class="stats-summary">
+  <div class="stat"><span>試行</span><strong><%= @stats[:total] %></strong></div>
+  <div class="stat"><span>ゴール</span><strong><%= @stats[:goals] %></strong></div>
+  <div class="stat"><span>セーブ</span><strong><%= @stats[:saves] %></strong></div>
+  <div class="stat"><span>成功率</span><strong><%= @stats[:rate] %>%</strong></div>
+  <div class="stat"><span>連続</span><strong><%= @stats[:streak] %></strong></div>
+</div>
 
-<table style="width: min(90vw, 800px); margin: 12px auto; border-collapse: collapse; font-size: 14px;">
-  <thead>
-    <tr>
-      <th>日時</th>
-      <th>あなた</th>
-      <th>キーパー</th>
-      <th>結果</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @games.each do |g| %>
+<div class="table-wrap">
+  <table class="pk-table">
+    <thead>
       <tr>
-        <td><%= g.created_at.strftime("%Y/%m/%d %H:%M") %></td>
-        <td><%= g.choice %></td>
-        <td><%= g.keeper_choice %></td>
-        <td style="font-weight:bold; color:<%= g.result ? 'green' : 'red' %>;">
-          <%= g.result ? '⚽️ ゴール' : '🧤 セーブ' %>
-        </td>
+        <th>日時</th>
+        <th>あなた</th>
+        <th>キーパー</th>
+        <th>結果</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @games.each do |g| %>
+        <tr>
+          <td data-label="日時"><%= g.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+          <td data-label="あなた" class="cap"><%= g.choice %></td>
+          <td data-label="キーパー" class="cap"><%= g.keeper_choice %></td>
+          <td data-label="結果">
+            <% if g.result %>
+              <span class="badge badge-goal">⚽️ ゴール</span>
+            <% else %>
+              <span class="badge badge-save">🧤 セーブ</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <div style="text-align:center; margin-top:20px;">
-  <%= link_to "← ⚽️PK挑戦に戻る", root_path, class: "btn" %>
+  <%= link_to "← ⚽️PK挑戦に戻る", root_path, class: "back-to-pk-btn" %>
 </div>
