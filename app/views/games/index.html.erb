@@ -7,13 +7,13 @@
 
 
 <div class="shoot-zone left">
-    <%= button_to "左", shoot_games_path(choice: "left"), method: :post, class: "shoot-btn-circle", form: { data: { turbo: true } } %>
+    <%= button_to "左", shoot_games_path(choice: "left"), method: :post, class: "shoot-btn-circle", form: { data: { turbo: false } } %>
   </div>
   <div class="shoot-zone center">
-    <%= button_to "中", shoot_games_path(choice: "center"), method: :post, class: "shoot-btn-circle", form: { data: { turbo: true } } %>
+    <%= button_to "中", shoot_games_path(choice: "center"), method: :post, class: "shoot-btn-circle", form: { data: { turbo: false } } %>
   </div>
   <div class="shoot-zone right">
-    <%= button_to "右", shoot_games_path(choice: "right"), method: :post, class: "shoot-btn-circle", form: { data: { turbo: true } } %>
+    <%= button_to "右", shoot_games_path(choice: "right"), method: :post, class: "shoot-btn-circle", form: { data: { turbo: false } } %>
   </div>
 </div>
 

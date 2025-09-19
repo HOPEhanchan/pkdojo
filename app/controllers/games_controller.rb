@@ -6,14 +6,11 @@ class GamesController < ApplicationController
   end
 
   def shoot
-    user_choice   = params[:choice]                 # 選択肢は３択で　"left"|"center"|"right"
+    user_choice   = params[:choice]                 # 選択肢は３択で"left"|"center"|"right"
     keeper_choice = %w[left center right].sample
     result        = (user_choice != keeper_choice)  # GKと違う方向ならゴール
 
-    @game = current_user.games.create!(
-      result: result, choice: user_choice, keeper_choice: keeper_choice
-    )
-
+    @game = current_user.games.create!(result: result, choice: user_choice, keeper_choice: keeper_choice)
     @keeper_choice = keeper_choice
     @result = result
     render :result
