@@ -1,0 +1,13 @@
+<div class="pk-field">
+  <%= image_tag "pk_goal_2.jpg", class: "goal" %>
+  <%= image_tag "keeper_normal.jpg", class: "keeper #{@keeper_choice}-save" %>
+</div>
+
+<div style="text-align:center; margin-top: 12px;">
+  <% if @result %>
+    <h2>⚽️ ゴォォール！！</h2>
+  <% else %>
+    <h2>🧤 セーブされた... </h2>
+  <% end %>
+  <%= link_to "もう一度挑戦", root_path, class: "btn" %>
+</div>
