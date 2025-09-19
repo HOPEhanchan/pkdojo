@@ -1,24 +1,34 @@
-# README
+# PK道場 ⚽️🍁
+「スポーツの秋」をテーマにした
+PK ゲームアプリです。
+君は何連ゴールできるかな？🔥
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 🎮 遊び方
+1. ログインして「PK挑戦」ページへ
+2. 左・中・右からシュート方向を選択
+3. キーパーと読み合い！⚽️🧤
+4. 結果が履歴・戦績に自動で保存されます
 
-Things you may want to cover:
+## 📊 戦績機能
+- ゴール数 / セーブ数 / 成功率を記録
+- 連続ゴール数をカウント
+- 履歴一覧ページで詳細確認
 
-* Ruby version
+## 🌟 特徴
+- シンプルな 3 択ゲーム
+- キーパーが動いてセーブ演出
+- 戦績サマリ + 一覧ページ
+- 季節演出 🍁 紅葉が舞い落ちる（秋仕様）
 
-* System dependencies
+## 🚀 デプロイ
+- Render にて稼働予定
+- Ruby on Rails 7 / PostgreSQL / Docker
 
-* Configuration
+## 📝 今後の拡張
+- 対戦機能（リアルタイム PK バトル）
+- ランキング機能
+- 季節ごとの演出（冬: ❄️, 春: 🌸, 夏: ☀️）
 
-* Database creation
+---
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### ハッシュタグ投稿例
