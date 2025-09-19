@@ -13,42 +13,76 @@
  *= require_tree .
  *= require_self
  */
-.pk-field { position: relative; width: 640px; margin: 24px auto; }
-.goal { width: 100%; display: block; }
-
-.keeper {
-  position: absolute; bottom: 0; left: 40%;
-  width: 120px; transition: left 0.5s ease;
+/* フィールドは中央寄せ */
+.pk-field {
+  position: relative;
+  width: min(90vw, 800px);
+  aspect-ratio: 16 / 9;
+  margin: 24px auto;
+  overflow: hidden;
 }
-.keeper.left-save   { left: 10%;  }
-.keeper.center-save { left: 40%;  }
-.keeper.right-save  { left: 70%;  }
 
-.shoot-zone { position: absolute; top: 0; bottom: 0; }
-.shoot-zone.left   { left: 0;   width: 33%; }
-.shoot-zone.center { left: 33%; width: 34%; }
-.shoot-zone.right  { left: 67%; width: 33%; }
+.goal {
+  position: absolute;
+  inset: 0;        /* top:0; right:0; bottom:0; left:0 の略 */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* 画像のトリミング方法。余白が出るなら contain に変更 */
+  display: block;
+  z-index: 1;
+}
 
-.shoot-btn { width: 100%; height: 100%; background: transparent; border: none; cursor: pointer; }
+/* キーパー：常に“体の中心”が指定位置に来る */
+.keeper {
+  position: absolute;
+  bottom: 6%;                 /* 底からの距離（画像に合わせて微調整） */
+  left: 50%;                  /* いったん中央へ */
+  transform: translateX(-50%);/* 画像の中心を left に合わせる */
+  width: clamp(320px, 22%, 260px); /* 画面に応じて自動拡縮（お好みで固定pxでもOK） */
+  z-index: 2;
+
+  transition:
+    left .45s cubic-bezier(.2, .8, .2, 1),
+    transform .45s cubic-bezier(.2, .8, .2, 1);
+}
+
+/* セーブ方向（“中心基準”で左右に寄せる） */
+.keeper.left-save   { left: 20%;  }
+.keeper.center-save { left: 50%;  }
+.keeper.right-save  { left: 80%;  }
+
+/* クリック面（最前面） */
+.shoot-zone {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 33.33%;           /* 左・中・右で振り分け */
+  display: flex;
+  align-items: center;     /* ←縦中央揃え */
+  justify-content: center; /* ←横中央揃え */
+  z-index: 5;              /* ゴールやキーパーより前に出す */
+}
+.shoot-zone.left   { left: 0; width: 33.33%; }
+.shoot-zone.center { left: 33.33%; width: 33.34%; }
+.shoot-zone.right  { left: 66.67%; width: 33.33%; }
 
 .shoot-btn-circle {
-  /* 背景色を青に */
-  background-color: #3498db;
-  color: white;
-
-  /* 少し大きめに */
-  padding: 20px 20px;
-  font-size: 8rem;
-
-  /* 角丸にして丸みを帯びた形に */
+  width: 100%; height: 100%;
+  display: block;
+  background: transparent;
   border: none;
-  border-radius: 30px;
-
-  /* 見た目の強調 */
   cursor: pointer;
-  text-align: center;
-
-  /* マウスオーバー時の効果 */
-  transition: background-color 0.2s ease;
 }
-.shoot-btn-circle:hover { background-color: #2980b9; }
+
+/* 結果画面：蹴った位置にボールを残す */
+.ball-position {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 33.33%;
+  display: flex;
+  align-items: center;     /* ←縦中央揃え */
+  justify-content: center; /* ←横中央揃え */
+  z-index: 5;
+}
+.ball-position.left   { left: 0; width: 33.33%; }
+.ball-position.center { left: 33.33%; width: 33.34%; }
+.ball-position.right  { left: 66.67%; width: 33.33%; }

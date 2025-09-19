@@ -1,13 +1,22 @@
-<div class="pk-field">
-  <%= image_tag "pk_goal_2.jpg", class: "goal" %>
-  <%= image_tag "keeper_normal.PNG", class: "keeper #{@keeper_choice}-save" %>
+<h1 style="text-align:center">
+  <% if @result %>
+    <h2 style="text-align:center">⚽️ ゴォォール！！</h2>
+  <% else %>
+    <h2 style="text-align:center">🧤 セーブされた... </h2>
+  <% end %>
+</h1>
+
+<div style="text-align:center;">
+  <%= link_to "もう一度挑戦", root_path, class: "btn" %>
 </div>
 
-<div style="text-align:center; margin-top: 12px;">
-  <% if @result %>
-    <h2>⚽️ ゴォォール！！</h2>
-  <% else %>
-    <h2>🧤 セーブされた... </h2>
-  <% end %>
-  <%= link_to "もう一度挑戦", root_path, class: "btn" %>
+<div class="pk-field">
+  <%= image_tag "pk_goal_2.PNG", class: "goal" %>
+  <%# キーパー（動き用クラスを付与） %>
+  <%= image_tag "keeper_normal.PNG", class: "keeper #{@keeper_choice}-save" %>
+
+  <%# ★ 蹴った位置にボールを残す（left/center/right に応じて配置クラスを付与） %>
+  <div class="ball-position <%= @game.choice %>">
+      <%= image_tag "soccer_ball.png", size: "100x100" %>
+  </div>
 </div>
