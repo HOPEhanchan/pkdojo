@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   devise_for :users
-  resources :games do
+  resources :games, only: [:index] do
     post :shoot, on: :collection
   end
   root "games#index"

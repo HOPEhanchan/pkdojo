@@ -13,3 +13,42 @@
  *= require_tree .
  *= require_self
  */
+.pk-field { position: relative; width: 640px; margin: 24px auto; }
+.goal { width: 100%; display: block; }
+
+.keeper {
+  position: absolute; bottom: 0; left: 40%;
+  width: 120px; transition: left 0.5s ease;
+}
+.keeper.left-save   { left: 10%;  }
+.keeper.center-save { left: 40%;  }
+.keeper.right-save  { left: 70%;  }
+
+.shoot-zone { position: absolute; top: 0; bottom: 0; }
+.shoot-zone.left   { left: 0;   width: 33%; }
+.shoot-zone.center { left: 33%; width: 34%; }
+.shoot-zone.right  { left: 67%; width: 33%; }
+
+.shoot-btn { width: 100%; height: 100%; background: transparent; border: none; cursor: pointer; }
+
+.shoot-btn-circle {
+  /* 背景色を青に */
+  background-color: #3498db;
+  color: white;
+
+  /* 少し大きめに */
+  padding: 20px 20px;
+  font-size: 8rem;
+
+  /* 角丸にして丸みを帯びた形に */
+  border: none;
+  border-radius: 30px;
+
+  /* 見た目の強調 */
+  cursor: pointer;
+  text-align: center;
+
+  /* マウスオーバー時の効果 */
+  transition: background-color 0.2s ease;
+}
+.shoot-btn-circle:hover { background-color: #2980b9; }
