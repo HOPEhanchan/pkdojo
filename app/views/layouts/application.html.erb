@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>App</title>
+    <title><%= content_for?(:title) ? "#{yield(:title)} | pk_dojo" : "pk_dojo" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+<%= favicon_link_tag 'pk_dojo_icon.png', rel: 'icon', type: 'image/png' %>
+  <link rel="apple-touch-icon" href="<%= asset_path 'pk_dojo_icon.png' %>">
+
+<!-- OGP / Twitter Card（画像は assets の絶対URLが必要） -->
+  <meta property="og:title" content="pk_dojo">
+  <meta property="og:description" content="君は何連ゴールできるかな？">
+  <meta property="og:image" content="<%= asset_url 'app-background_home.png' %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="pk_dojo">
+  <meta name="twitter:description" content="君は何連ゴールできるかな？">
+  <meta name="twitter:image" content="<%= asset_url 'app-background_home.png' %>">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -12,6 +24,16 @@
 
   <body>
   <div class="app-background"></div>
+
+<!-- BGM（Turboで永続化） -->
+<div id="bgm-wrapper" data-turbo-permanent>
+  <audio id="bgm" preload="auto" loop>
+    <source src="<%= asset_path 'pk_dojo_bgm.mp3' %>" type="audio/mpeg">
+  </audio>
+  <button id="toggle-bgm" class="bgm-toggle" type="button" aria-pressed="false" aria-label="BGMを再生/停止">
+    🎵 BGM ON
+  </button>
+</div>
 
   <% if user_signed_in? && (@streak_count.to_i > 0 || @max_streak_count.to_i > 0) %>
     <div class="streak-banner" role="status" aria-live="polite">

@@ -7,6 +7,16 @@
   <%= link_to root_path, class: "btn", "aria-label" => "もう一度挑戦する" do %>
     <span class="dot" aria-hidden="true"></span> もう一度挑戦
   <% end %>
+
+<%# --- X投稿機能 --- %>
+<% share_text = "あなたの成功記録は#{@current_streak}連ゴール！" %>
+<% share_hashtags = "pk_dojo,スポーツの秋,RUNTEQ" %>
+<% share_url = root_url %>
+<% intent = "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode(share_text)}&url=#{ERB::Util.url_encode(share_url)}&hashtags=#{ERB::Util.url_encode(share_hashtags)}" %>
+
+<div style="margin-top:10px;">
+  <%= link_to "X に投稿する", intent, class: "btn btn--ghost", target: "_blank", rel: "noopener" %>
+</div>
 </div>
 
 <div class="pk-field <%= 'shake' unless @result %>">

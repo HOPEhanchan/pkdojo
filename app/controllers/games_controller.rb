@@ -30,6 +30,19 @@ class GamesController < ApplicationController
     @keeper_choice = keeper_choice
     @result = result
     @streak_broken = (prev_streak > 0 && !result)  # 連続が止まった？
+    # ← ここからX共有用（最高記録）：最高連続を算出（古い順で走査）
+    max_streak = 0
+    cur = 0
+    current_user.games.order(:created_at).pluck(:result).each do |r|
+      if r
+        cur += 1
+        max_streak = [max_streak, cur].max
+      else
+        cur = 0
+      end
+    end
+    @share_streak = max_streak   # X共有用（最高記録）ここまで
+
     render :result
   end
 
