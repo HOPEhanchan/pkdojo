@@ -15,8 +15,30 @@ class GamesController < ApplicationController
   end
 
   def show
-    # @game は set_game で取得済み
+  @game = current_user.games.find(params[:id])
+
+  @keeper_choice = @game.keeper_choice
+  @result        = @game.result
+
+  # このゲームより「前」の結果だけで直前連続を計算（新しい順）
+  prev_results = current_user.games
+                    .where("created_at < ?", @game.created_at)
+                    .order(created_at: :desc)
+                    .pluck(:result)
+
+  @streak_just_before = prev_results.take_while { |r| r }.size
+  @streak_broken      = (@streak_just_before.positive? && !@result)
+
+  # 共有用：最高連続（古い順で走査）
+  cur = 0
+  @share_streak = current_user.games.order(:created_at).pluck(:result).reduce(0) do |mx, r|
+    cur = r ? cur + 1 : 0
+    [mx, cur].max
   end
+
+  render :result
+end
+
 
   def shoot
     user_choice   = params[:choice]                 # 選択肢は３択で"left"|"center"|"right"
@@ -43,7 +65,7 @@ class GamesController < ApplicationController
     end
     @share_streak = max_streak   # X共有用（最高記録）ここまで
 
-    render :result
+    redirect_to game_path(@game) #PRG(POST → redirect → GET)
   end
 
   def stats

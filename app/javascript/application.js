@@ -26,9 +26,9 @@ document.addEventListener("turbo:load", () => {
 });
 
 // === BGM toggle ===
-// === (turbo-permanent対応・一度だけ初期化) ===
-document.addEventListener("turbo:load", () => {
-  if (window.__bgmInitialized) return;         // ← 2回目以降は何もしない
+// === BGM toggle (turbo-permanent対応) ===
+function initBGMOnce() {
+  if (window.__bgmInitialized) return;
   const bgm = document.getElementById("bgm");
   const btn = document.getElementById("toggle-bgm");
   if (!bgm || !btn) return;
@@ -55,9 +55,21 @@ document.addEventListener("turbo:load", () => {
   });
 
   reflect();
+}
+
+document.addEventListener("turbo:load", initBGMOnce);
+
+// Turbo が新DOMを挿し替えた“直後”にも、もし有効なら再生を再開
+document.addEventListener("turbo:render", () => {
+  const bgm = document.getElementById("bgm");
+  if (!bgm) return;
+  const enabled = localStorage.getItem("bgmEnabled") !== "false"; // 未設定 or "true" を有効扱い
+  if (enabled && bgm.paused) {
+    bgm.play().catch(() => {});
+  }
 });
 
-// 念のため：新DOMに置き換えられる前に旧audioを温存（turbo-permanentあるが、保険で）
+// 念のため：差し替え前に旧audioを温存（permanentでも保険）
 document.addEventListener("turbo:before-render", (e) => {
   const oldAudio = document.getElementById("bgm");
   const newAudio = e.detail.newBody?.querySelector?.("#bgm");

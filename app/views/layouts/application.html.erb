@@ -25,8 +25,8 @@
   <body>
   <div class="app-background"></div>
 
-<!-- BGM（Turboで永続化） -->
-<div id="bgm-wrapper" data-turbo-permanent>
+<!-- BGM（Turboで永続化・画面遷移に負けないbgm） -->
+<div id="bgm-root" data-turbo-permanent>
   <audio id="bgm" preload="auto" loop>
     <source src="<%= asset_path 'pk_dojo_bgm.mp3' %>" type="audio/mpeg">
   </audio>
@@ -35,16 +35,18 @@
   </button>
 </div>
 
-  <% if user_signed_in? && (@streak_count.to_i > 0 || @max_streak_count.to_i > 0) %>
-    <div class="streak-banner" role="status" aria-live="polite">
-      <% if @streak_count.to_i > 0 %>
-        <span class="chip chip-current">現在⚽️ <strong><%= @streak_count %></strong> 連ゴール🔥</span>
-      <% end %>
-      <% if @max_streak_count.to_i > 0 %>
-        <span class="chip chip-max">最高記録🏆 <strong><%= @max_streak_count %></strong> 連ゴール！</span>
-      <% end %>
-    </div>
-  <% end %>
+<% if user_signed_in? %>
+  <div class="streak-banner" role="status" aria-live="polite">
+    <% if @streak_broken %>
+      😭連続ゴール <strong><%= @streak_just_before %></strong> でストップ…修行が足りない！
+    <% elsif @streak_count.to_i > 0 %>
+      現在⚽️ <strong><%= @streak_count %></strong> 連ゴール🔥
+    <% elsif @max_streak_count.to_i > 0 %>
+      最高記録🏆 <strong><%= @max_streak_count %></strong> 連ゴール！
+    <% end %>
+  </div>
+<% end %>
+
 
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>

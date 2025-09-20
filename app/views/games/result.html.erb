@@ -9,7 +9,8 @@
   <% end %>
 
 <%# --- X投稿機能 --- %>
-<% share_text = "あなたの成功記録は#{@current_streak}連ゴール！" %>
+<% share_text = "PK道場に挑戦したよ！" %>
+<% share_text = "あなたの最高記録は#{@max_streak_count}連ゴール！" %>
 <% share_hashtags = "pk_dojo,スポーツの秋,RUNTEQ" %>
 <% share_url = root_url %>
 <% intent = "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode(share_text)}&url=#{ERB::Util.url_encode(share_url)}&hashtags=#{ERB::Util.url_encode(share_hashtags)}" %>
@@ -30,6 +31,7 @@
   </div>
 </div>
 
+<%# ---  セーブされ連続ゴールが途切れた時に、直前連続のゴール数を表示 ---%>
 <% if @streak_broken %>
   <script>
     (function() {
