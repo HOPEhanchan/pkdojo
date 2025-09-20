@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap');
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -258,3 +259,76 @@
   50%     { background: rgba(139, 0, 0, .90); }
 }
 .streak-banner.break { animation: streak-break .6s ease-in-out 3; }
+
+/* === Buttons ===================================== */
+.btn {
+  --btn-bg: linear-gradient(135deg, #2563eb 0%, #10b981 100%);
+  --btn-bg-hover: linear-gradient(135deg, #1d4ed8 0%, #059669 100%);
+  --btn-shadow: 0 8px 20px rgba(16, 185, 129, .35);
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 18px; border-radius: 9999px;
+  background: var(--btn-bg);
+  color: #fff; font-weight: 800; letter-spacing: .03em;
+  text-decoration: none; border: none; cursor: pointer;
+  box-shadow: var(--btn-shadow);
+  transform: translateY(0);
+  transition: transform .12s ease, filter .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.btn:hover { background: var(--btn-bg-hover); filter: brightness(1.02); box-shadow: 0 10px 24px rgba(16,185,129,.45); }
+.btn:active { transform: translateY(1px); filter: brightness(.98); }
+
+.btn--ghost {
+  background: rgba(17, 24, 39, .65);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+}
+.btn--danger {
+  --btn-bg: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  --btn-bg-hover: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  --btn-shadow: 0 8px 20px rgba(239, 68, 68, .35);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .btn { transition: none; }
+}
+
+/* アイコンのための小さな丸 */
+{
+  display:inline-block; width:8px; height:8px; border-radius:50%;
+  background: rgba(255,255,255,.9);
+}
+
+/* === Hero（見出しの装飾） ======================== */
+.hero {
+  width: min(92vw, 900px);
+  margin: 20px auto 12px;
+  text-align: center;
+}
+
+/* 筆字っぽいフォント */
+@import url('https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Shippori+Mincho&display=swap');
+
+.hero-title {
+  font-family: 'Yuji Syuku', serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 900;
+  letter-spacing: .05em;
+  color: #111827;
+}
+
+.hero-sub {
+  font-family: 'Yuji Syuku', serif;
+  font-size: clamp(18px, 3vw, 22px);
+  color: #374151;
+  margin-top: 8px;
+}
+/* === （どこに蹴る？のフォント設定） ======================== */
+.kick-prompt {
+  font-family: 'Yuji Syuku', serif;
+  font-size: clamp(22px, 3.5vw, 28px);
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: #111827;
+  text-align: center;
+  margin-bottom: 12px;
+}

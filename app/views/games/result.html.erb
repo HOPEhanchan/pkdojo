@@ -4,7 +4,9 @@
   <% else %>
     <h2 style="color:red;">🧤 セーブされた... </h2>
   <% end %>
-  <%= link_to "もう一度挑戦", root_path, class: "btn" %>
+  <%= link_to root_path, class: "btn", "aria-label" => "もう一度挑戦する" do %>
+    <span class="dot" aria-hidden="true"></span> もう一度挑戦
+  <% end %>
 </div>
 
 <div class="pk-field <%= 'shake' unless @result %>">
