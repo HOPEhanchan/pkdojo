@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 set -e
-exec foreman start -f Procfile.dev
+
+# Foreman を bundler 経由で呼び出す
+exec bundle exec foreman start -f Procfile.dev "$@"

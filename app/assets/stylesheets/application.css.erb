@@ -13,6 +13,13 @@
  *= require_tree .
  *= require_self
  */
+ /* 共通の背景設定 */
+.app-background {
+  position: fixed;
+  inset: 0;
+  background: url(<%= asset_path 'app-background.png' %>) center/cover no-repeat;
+  z-index: -1;
+}
 /* gameの基本画面設定 */
 .pk-field {
   position: relative;
