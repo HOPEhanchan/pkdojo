@@ -39,14 +39,26 @@ class GamesController < ApplicationController
   total = @games.size
   goals = @games.where(result: true).count
   saves = @games.where(result: false).count
-  streak = @games.reverse.take_while(&:result).count # 連続ゴール数の表示
+  streak = @games.order(created_at: :desc).pluck(:result).take_while { |r| r }.size # 連続ゴール数の表示
+
+  max_streak = 0 # 最大連続ゴール数を計算
+  current = 0
+  @games.order(:created_at).each do |g|
+    if g.result
+      current += 1
+      max_streak = [max_streak, current].max
+    else
+      current = 0
+    end
+  end
 
   @stats = {
     total: total,
     goals: goals,
     saves: saves,
     rate: total.zero? ? 0 : ((goals.to_f / total) * 100).round(1),
-    streak: streak
+    streak: streak,
+    max_streak: max_streak
   }
 end
 
