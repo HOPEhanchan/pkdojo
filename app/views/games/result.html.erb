@@ -25,7 +25,7 @@
         const b = document.querySelector('.streak-banner');
         if (!b) return;
         b.classList.add('break');
-        setTimeout(() => b.classList.remove('break'), 1800); // 0.6s × 3回ぶん
+        setTimeout(() => b.classList.remove('break'), 1800); // 0.6s × 3回分
       };
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', onLoad, { once:true });
