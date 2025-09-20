@@ -12,11 +12,18 @@
 
   <body>
   <div class="app-background"></div>
-  <% if user_signed_in? && @streak_count.to_i > 0 %>
+
+  <% if user_signed_in? && (@streak_count.to_i > 0 || @max_streak_count.to_i > 0) %>
     <div class="streak-banner" role="status" aria-live="polite">
-      現在⚽️ <strong><%= @streak_count %></strong> 連ゴール🔥
+      <% if @streak_count.to_i > 0 %>
+        <span class="chip chip-current">現在⚽️ <strong><%= @streak_count %></strong> 連ゴール🔥</span>
+      <% end %>
+      <% if @max_streak_count.to_i > 0 %>
+        <span class="chip chip-max">最高記録🏆 <strong><%= @max_streak_count %></strong> 連ゴール！</span>
+      <% end %>
     </div>
   <% end %>
+
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
     <%= yield %>

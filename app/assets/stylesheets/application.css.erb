@@ -215,19 +215,25 @@
 /* === 連続ゴール・フローティングバナー === */
 .streak-banner{
   position: fixed;
-  top: 36px;
-  left: 30%;
+  top: 45px;
+  left: 25%;
   transform: translateX(-50%);
   z-index: 10001;             /* 🍁(9999) より前面に */
-  background: rgba(255, 69, 0, .92);
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 9999px;
-  font-weight: 700;
-  box-shadow: 0 4px 10px rgba(0,0,0,.15);
-  animation: streak-pop .5s ease-out, streak-pulse 1.6s ease-in-out infinite;
+  display: inline-flex; gap: 8px; flex-wrap: wrap;
+  background: rgba(17,24,39,.85);
+  color: #fff; padding: 8px 12px; border-radius: 9999px;
+  font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,.15);
 }
-.streak-banner strong{ font-size: 1.1em; margin: 0 .15em; }
+
+.streak-banner .chip{
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 9999px; line-height: 1;
+  background: rgba(255,255,255,.08);
+}
+.streak-banner .chip strong{ font-size: 1.05em; }
+
+.chip-current{ background: rgba(34,197,94,.18); } /* 緑っぽく */
+.chip-max    { background: rgba(244,63,94,.18); } /* 赤っぽく */
 
 @keyframes streak-pop {
   0% { transform: translateX(-50%) scale(.8); opacity: 0; }
