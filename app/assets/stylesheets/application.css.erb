@@ -210,3 +210,51 @@
   10%  { opacity: 1; }
   100% { transform: translateY(110vh) rotate(360deg); opacity: 0.95; }
 }
+
+/* === 連続ゴール・フローティングバナー === */
+.streak-banner{
+  position: fixed;
+  top: 36px;
+  left: 30%;
+  transform: translateX(-50%);
+  z-index: 10001;             /* 🍁(9999) より前面に */
+  background: rgba(255, 69, 0, .92);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0,0,0,.15);
+  animation: streak-pop .5s ease-out, streak-pulse 1.6s ease-in-out infinite;
+}
+.streak-banner strong{ font-size: 1.1em; margin: 0 .15em; }
+
+@keyframes streak-pop {
+  0% { transform: translateX(-50%) scale(.8); opacity: 0; }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+@keyframes streak-pulse {
+  0%,100% { transform: translateX(-50%) scale(1); }
+  50%     { transform: translateX(-50%) scale(1.06); }
+}
+
+/* スマホは少し小さめに */
+@media (max-width: 480px){
+  .streak-banner{ padding: 6px 12px; font-size: 13px; top: 10px; }
+}
+
+/* === セーブ時：ゴール枠をガタガタ揺らす === */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+.shake { animation: shake .4s ease; }
+
+/* === 連続ゴールが止まった時：バナーを警告色で点滅 === */
+@keyframes streak-break {
+  0%,100% { background: rgba(255, 0, 0, .90); }
+  50%     { background: rgba(139, 0, 0, .90); }
+}
+.streak-banner.break { animation: streak-break .6s ease-in-out 3; }

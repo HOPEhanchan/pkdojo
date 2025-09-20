@@ -1,16 +1,13 @@
-<h1 style="text-align:center">
+<div style="text-align:center; margin-top:12px;">
   <% if @result %>
-    <h2 style="text-align:center">⚽️ ゴォォール！！</h2>
+    <h2 style="color:green;">⚽️ ゴォォール！！</h2>
   <% else %>
-    <h2 style="text-align:center">🧤 セーブされた... </h2>
+    <h2 style="color:red;">🧤 セーブされた... </h2>
   <% end %>
-</h1>
-
-<div style="text-align:center;">
   <%= link_to "もう一度挑戦", root_path, class: "btn" %>
 </div>
 
-<div class="pk-field">
+<div class="pk-field <%= 'shake' unless @result %>">
   <%= image_tag "pk_goal_2.PNG", class: "goal" %>
   <%# キーパー（動き用クラスを付与） %>
   <%= image_tag "keeper_normal.PNG", class: "keeper #{@keeper_choice}-save" %>
@@ -20,3 +17,21 @@
       <%= image_tag "soccer_ball.png", size: "100x100" %>
   </div>
 </div>
+
+<% if @streak_broken %>
+  <script>
+    (function() {
+      const onLoad = () => {
+        const b = document.querySelector('.streak-banner');
+        if (!b) return;
+        b.classList.add('break');
+        setTimeout(() => b.classList.remove('break'), 1800); // 0.6s × 3回ぶん
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', onLoad, { once:true });
+      } else {
+        onLoad();
+      }
+    })();
+  </script>
+<% end %>

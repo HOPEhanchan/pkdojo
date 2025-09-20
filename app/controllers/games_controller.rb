@@ -18,9 +18,13 @@ class GamesController < ApplicationController
     keeper_choice = %w[left center right].sample
     result        = (user_choice != keeper_choice)  # GKと違う方向ならゴール
 
+    # 直前の“連続ゴール数”を先に計算（降順に見てtrueが続く間）
+    prev_streak = current_user.games.order(created_at: :desc).pluck(:result).take_while { |r| r }.size
+
     @game = current_user.games.create!(result: result, choice: user_choice, keeper_choice: keeper_choice)
     @keeper_choice = keeper_choice
     @result = result
+    @streak_broken = (prev_streak > 0 && !result)  # 連続が止まった？
     render :result
   end
 

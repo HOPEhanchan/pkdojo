@@ -12,6 +12,11 @@
 
   <body>
   <div class="app-background"></div>
+  <% if user_signed_in? && @streak_count.to_i > 0 %>
+    <div class="streak-banner" role="status" aria-live="polite">
+      現在⚽️ <strong><%= @streak_count %></strong> 連ゴール🔥
+    </div>
+  <% end %>
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
     <%= yield %>
