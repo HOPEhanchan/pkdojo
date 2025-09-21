@@ -3,13 +3,13 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   devise_for :users
   #ログイン済みの人のroot
-  authenticated: user do
-    root "game#index", as: :authenticated_root
+  authenticated :user do
+    root "games#index", as: :authenticated_root
   end
 
   #未ログインの人のroot（まずはゲームTOP。）
   unauthenticated do
-    root "game#index"
+    root "games#index"
   end
 
   resources :games, only: [:index, :show] do
