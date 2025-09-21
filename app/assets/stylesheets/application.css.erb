@@ -22,12 +22,22 @@
   z-index: -1;
 }
 /* gameの基本画面設定 */
-.pk-field {
+/* === フィールド全体 === */
+.pk-field{
   position: relative;
-  width: min(90vw, 800px);
-  aspect-ratio: 16 / 9;
-  margin: 24px auto;
-  overflow: hidden;
+  /* 横幅は画面に合わせ、縦は“デバイスのビューポート高”を上限に */
+  width: min(92vw, 720px);
+  height: min(70dvh, calc(92vw * 0.62)); /* 0.62は横長画像の縦横比に合わせて微調整 */
+  margin: 0 auto;
+  /* iOSセーフエリア考慮 */
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+/* ゴール画像…枠内に収める */
+.pk-field .goal{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain; /* はみ出させない */
+  display:block;
 }
 
 .goal {
@@ -43,11 +53,12 @@
 /* キーパー：常に“体の中心”が指定位置に来る */
 .keeper {
   position: absolute;
-  bottom: 6%;                 /* 底からの距離 */
-  left: 50%;                  /* いったん中央へ */
-  transform: translateX(-50%);/* 画像の中心を left に合わせる */
-  width: clamp(320px, 22%, 260px); /* 画面に応じて自動拡縮 */
-  z-index: 2;
+  bottom: 6%;           /* ゴール内に足が入る位置 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(120px, 26%, 240px); /* 画面に応じて可変 */
+  transition: left .45s ease;
+  pointer-events: none; /* タップを邪魔しない */
 
   transition:
     left .45s cubic-bezier(.2, .8, .2, 1),
@@ -59,15 +70,18 @@
 .keeper.center-save { left: 50%;  }
 .keeper.right-save  { left: 80%;  }
 
+/* シュートゾーン（タップ領域は広めに） */
 /* ３択の設定（z-index最前面にする） */
 .shoot-zone {
   position: absolute;
-  top: 0; bottom: 0;
-  width: 33.33%;           /* 左・中・右で振り分け */
+  bottom: 12%;      /* ← ゴール枠に近い高さ */
+  top: auto;        /* ← 全体を覆わないようにする */
+  width: 33.33%;
+  height: 30%;      /* ← 高さを明示的に制御 */
   display: flex;
-  align-items: center;     /* ←縦中央揃え */
-  justify-content: center; /* ←横中央揃え */
-  z-index: 5;              /* ゴールやキーパーより前に出す */
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
 }
 .shoot-zone.left   { left: 0; width: 33.33%; }
 .shoot-zone.center { left: 33.33%; width: 33.34%; }
@@ -94,6 +108,22 @@
 .ball-position.left   { left: 0; width: 33.33%; }
 .ball-position.center { left: 33.33%; width: 33.34%; }
 .ball-position.right  { left: 66.67%; width: 33.33%; }
+
+/* === モバイル微調整（小さい画面だけ） === */
+@media (max-width: 480px){
+  .pk-field{
+    /* ちょい縦を控えめにして見切れ防止 */
+    height: min(68dvh, calc(92vw * 0.66));
+  }
+  .keeper{
+    bottom: 8%;                 /* ほんの少し上げる */
+    width: clamp(110px, 28%, 220px);
+  }
+  .shoot-zone{
+    bottom: 14%;                /* ボタンを少し上げて押しやすく */
+    height: 26%;                /* タップ面積を確保 */
+  }
+}
 
 .pk-mini-stats{
   position: fixed;
