@@ -2,19 +2,22 @@ Rails.application.routes.draw do
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   devise_for :users
-  #ログイン済みの人のroot
-  authenticated :user do
-    root "games#index", as: :authenticated_root
-  end
 
-  #未ログインの人のroot（まずはゲームTOP。）
-  unauthenticated do
-    root "games#index"
-  end
+  # 一旦みんなこのroot
+  root "games#index"
 
+  ##ログイン済みの人のroot
+  #authenticated :user do
+  #  root "games#index", as: :authenticated_root
+  #end
+
+  ##未ログインの人のroot（まずはゲームTOP。）
+  #unauthenticated do
+  #  root "games#index"
+  #end
   resources :games, only: [:index, :show] do
     post :shoot, on: :collection
-    collection { get :stats } # /games/stats で戦績ページへ
+    get  :stats, on: :collection  # /games/stats で戦績ページへ
   end
 
   root "games#index"
