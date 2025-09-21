@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :set_streak
+  before_action :authenticate_user!
+  before_action :auto_login_demo_user, if: -> { ENV['DEMO_AUTO_LOGIN'] == 'true' }
 
   private
 
@@ -23,5 +25,13 @@ class ApplicationController < ActionController::Base
       end
     end
     @max_streak_count = max_streak
+  end
+
+  def auto_login_demo_user
+    return if user_signed_in?
+    user = User.find_or_create_by!(email: 'demo@pkdojo.local') do |u|
+      u.password = SecureRandom.hex(16)
+    end
+    sign_in(user)
   end
 end

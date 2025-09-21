@@ -1,0 +1,37 @@
+<!-- app/views/devise/sessions/new.html.erb -->
+<div style="max-width:420px;margin:60px auto;padding:24px;border-radius:16px;
+            background:rgba(255,255,255,.85);box-shadow:0 10px 30px rgba(0,0,0,.08);">
+  <h1 style="text-align:center;margin:0 0 14px;font-size:22px;">ログイン</h1>
+  <p style="text-align:center;margin:0 0 18px;color:#555;">PK道場へようこそ！</p>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div style="margin-bottom:12px;">
+      <%= f.label :email %><br>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email",
+            style:"width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;" %>
+    </div>
+
+    <div style="margin-bottom:8px;">
+      <%= f.label :password %><br>
+      <%= f.password_field :password, autocomplete: "current-password",
+            style:"width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;" %>
+    </div>
+
+    <div style="text-align:center;margin:16px 0 8px;">
+      <%= f.submit "ログイン", class: "btn" %>
+    </div>
+  <% end %>
+
+  <hr style="margin:14px 0;">
+
+  <!-- ワンクリ・ゲスト -->
+  <div style="text-align:center;">
+    <%= button_to "👤 ゲストですぐ遊ぶ", guest_sign_in_path,
+          method: :post, class: "btn" %>
+  </div>
+</div>
+
+<!-- 既存の戻る導線（任意） -->
+<div style="text-align:center;margin-top:10px;">
+  <%= link_to "← トップへ戻る", root_path %>
+</div>

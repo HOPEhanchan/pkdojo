@@ -1,17 +1,23 @@
 Rails.application.routes.draw do
-
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  devise_for :users
+
+  # Devise の Sessions をアプリ側で上書き
+  devise_for :users, controllers: { sessions: 'users/sessions' }
+
+  # ゲストログイン（Users::SessionsController#guest_sign_in を叩く）
+  devise_scope :user do
+    post 'users/guest_sign_in', to: 'users/sessions#guest_sign_in', as: :guest_sign_in
+  end
 
   # 一旦みんなこのroot
   root "games#index"
 
-  ##ログイン済みの人のroot
+  ##ログイン済みの人のroot 一旦廃止
   #authenticated :user do
   #  root "games#index", as: :authenticated_root
   #end
 
-  ##未ログインの人のroot（まずはゲームTOP。）
+  ##未ログインの人のroot（まずはゲームTOP。） 一旦廃止
   #unauthenticated do
   #  root "games#index"
   #end
@@ -26,4 +32,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
 end

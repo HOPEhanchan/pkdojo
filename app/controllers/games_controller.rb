@@ -1,17 +1,39 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:shoot, :stats, :show]
   before_action :set_game, only: [:show]
 
   def index
-    @games = current_user.games.order(created_at: :desc)
+    if user_signed_in?
+      @games = current_user.games.order(created_at: :desc)
 
-    total = @games.size
-    goals = @games.where(result: true).count
-    @stats = {
-      total: total,
-      goals: goals,
-      rate:  total.zero? ? 0 : ((goals.to_f / total) * 100).round(1)
-    }
+      total = @games.size
+      goals = @games.where(result: true).count
+      saves = total - goals
+
+      # 連続＆最高連続
+      results = @games.order(:created_at).pluck(:result)
+      streak = 0
+      max_streak = 0
+      results.each do |r|
+        if r
+          streak += 1
+          max_streak = [max_streak, streak].max
+        else
+          streak = 0
+        end
+      end
+
+      rate = total.zero? ? 0 : ((goals.to_f / total) * 100).round(1)
+      @stats = { total: total, goals: goals, saves: saves, rate: rate, streak: streak, max_streak: max_streak }
+      @streak_count     = streak
+      @max_streak_count = max_streak
+    else
+      # 未ログイン時は空データでOK（ゲストログインボタンを出す）
+      @games = Game.none
+      @stats = { total: 0, goals: 0, saves: 0, rate: 0, streak: 0, max_streak: 0 }
+      @streak_count     = 0
+      @max_streak_count = 0
+    end
   end
 
   def show
