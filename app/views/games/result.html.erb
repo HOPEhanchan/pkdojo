@@ -1,0 +1,51 @@
+<div style="text-align:center; margin-top:12px;">
+  <% if @result %>
+    <h2 style="color:green;">⚽️ ゴォォール！！</h2>
+  <% else %>
+    <h2 style="color:red;">🧤 セーブされた... </h2>
+  <% end %>
+  <%= link_to root_path, class: "btn", "aria-label" => "もう一度挑戦する" do %>
+    <span class="dot" aria-hidden="true"></span> もう一度挑戦
+  <% end %>
+
+<%# --- X投稿機能 --- %>
+<% share_text = "PK道場に挑戦したよ！" %>
+<% share_text = "あなたの最高記録は#{@max_streak_count}連ゴール！" %>
+<% share_hashtags = "pk_dojo,スポーツの秋,RUNTEQ" %>
+<% share_url = root_url %>
+<% intent = "https://twitter.com/intent/tweet?text=#{ERB::Util.url_encode(share_text)}&url=#{ERB::Util.url_encode(share_url)}&hashtags=#{ERB::Util.url_encode(share_hashtags)}" %>
+
+<div style="margin-top:10px;">
+  <%= link_to "X に投稿する", intent, class: "btn btn--ghost", target: "_blank", rel: "noopener" %>
+</div>
+</div>
+
+<div class="pk-field <%= 'shake' unless @result %>">
+  <%= image_tag "pk_goal_2.PNG", class: "goal" %>
+  <%# キーパー（動き用クラスを付与） %>
+  <%= image_tag "keeper_normal.PNG", class: "keeper #{@keeper_choice}-save" %>
+
+  <%# ★ 蹴った位置にボールを残す（left/center/right に応じて配置クラスを付与） %>
+  <div class="ball-position <%= @game.choice %>">
+      <%= image_tag "soccer_ball.png", size: "100x100" %>
+  </div>
+</div>
+
+<%# ---  セーブされ連続ゴールが途切れた時に、直前連続のゴール数を表示 ---%>
+<% if @streak_broken %>
+  <script>
+    (function() {
+      const onLoad = () => {
+        const b = document.querySelector('.streak-banner');
+        if (!b) return;
+        b.classList.add('break');
+        setTimeout(() => b.classList.remove('break'), 1800); // 0.6s × 3回分
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', onLoad, { once:true });
+      } else {
+        onLoad();
+      }
+    })();
+  </script>
+<% end %>

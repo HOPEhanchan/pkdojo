@@ -1,24 +1,41 @@
-# README
+# PK道場 ⚽️🍁
+「スポーツの秋」をテーマにした、RUNTEQの「ミニアプリWEEK」イベント提出に向け作成しました！
+とてもシンプルなPK ゲームアプリです。君は何連ゴールできるかな？🔥
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 🎯 デモ
+👉 [https://pkdojo.onrender.com](https://pkdojo.onrender.com)
 
-Things you may want to cover:
+## 🎮 遊び方
+1. ログインして「PK挑戦」ページへ
+2. 左・中・右からシュート方向を選択
+3. キーパーと読み合い！⚽️🧤
+4. 結果が履歴・戦績に自動で保存されます
 
-* Ruby version
+## 📊 戦績機能
+- ゴール数 / セーブ数 / ゴール率を記録
+- 連続ゴール数をカウント
+- 履歴一覧ページで詳細確認
 
-* System dependencies
+## 🌟 特徴
+- シンプルな 3 択ゲーム
+- キーパーが動いてセーブ演出
+- 戦績サマリ + 一覧ページ
+- 季節演出 🍁 紅葉が舞い落ちる（今は秋仕様）
 
-* Configuration
+## 🚀 デプロイ
+- Render にて稼働予定
+- 使用技術：Ruby on Rails 7 / PostgreSQL / Docker
 
-* Database creation
+## 📝 今後の拡張
+- 道場破りモード（対戦機能：友達とリアルタイム PK バトル）
+- ランキング機能（挑戦回数・最高連続ゴール数・ゴール成功率）
+- 季節ごとの演出（冬: ❄️, 春: 🌸, 夏: ☀️）
+- Xへの＃（ハッシュタグ）付き投稿機能
+- 連続ゴール数に応じた、隠しコメント機能　など
 
-* Database initialization
+---
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### ハッシュタグ投稿例
+あなたの最高記録は⚪︎連ゴール！
+http://localhost:3000/
+#pk_dojo #スポーツの秋 #RUNTEQ

@@ -1,0 +1,42 @@
+<h1 style="text-align:center;">戦績一覧</h1>
+
+<div class="stats-summary">
+  <div class="stat"><span>挑戦回数</span><strong><%= @stats[:total] %></strong></div>
+  <div class="stat"><span>ゴール</span><strong><%= @stats[:goals] %></strong></div>
+  <div class="stat"><span>セーブ</span><strong><%= @stats[:saves] %></strong></div>
+  <div class="stat"><span>ゴール率</span><strong><%= @stats[:rate] %>%</strong></div>
+  <div class="stat"><span>最高記録</span><strong><%= @stats[:max_streak] %></strong></div>
+</div>
+
+<div class="table-wrap">
+  <table class="pk-table">
+    <thead>
+      <tr>
+        <th>日時</th>
+        <th>あなた</th>
+        <th>キーパー</th>
+        <th>結果</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @games.each do |g| %>
+        <tr>
+          <td data-label="日時"><%= g.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+          <td data-label="あなた" class="cap"><%= g.choice %></td>
+          <td data-label="キーパー" class="cap"><%= g.keeper_choice %></td>
+          <td data-label="結果">
+            <% if g.result %>
+              <span class="badge badge-goal">⚽️ ゴール</span>
+            <% else %>
+              <span class="badge badge-save">🧤 セーブ</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div style="text-align:center; margin-top:20px;">
+  <%= link_to "← ⚽️PK挑戦に戻る", root_path, class: "back-to-pk-btn" %>
+</div>

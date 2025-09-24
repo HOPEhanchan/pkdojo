@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  result: false
+  choice: MyString
+  keeper_choice: MyString
+
+two:
+  user: two
+  result: false
+  choice: MyString
+  keeper_choice: MyString

@@ -33,3 +33,6 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+#macOS Finder のメタファイルなので.DS_Store は無視「理由：macのFinder表示設定が入ってるだけだから」
+.DS_Store
