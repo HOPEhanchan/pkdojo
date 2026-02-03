@@ -1,19 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap');
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
  /* 共通の背景設定 */
 .app-background {
   position: fixed;
@@ -21,62 +6,63 @@
   background: url(<%= asset_path 'app-background.png' %>) center/cover no-repeat;
   z-index: -1;
 }
+
 /* gameの基本画面設定 */
-/* === フィールド全体 === */
+/* === pkフィールド全体 === */
+/* ゴール全体のフレーム（高さは比率で決める） */
+/* pk-field をサイズコンテナ化（高さベースの単位 cqh を使う） */
 .pk-field{
+  container-type: size;   /* ← inline-size から size に変更 */
   position: relative;
-  /* 横幅は画面に合わせ、縦は“デバイスのビューポート高”を上限に */
-  width: min(92vw, 720px);
-  height: min(70dvh, calc(92vw * 0.62)); /* 0.62は横長画像の縦横比に合わせて微調整 */
+  width: min(92vw, 680px);
+  aspect-ratio: 16 / 12;
+  max-height: 70dvh;
   margin: 0 auto;
-  /* iOSセーフエリア考慮 */
-  padding-bottom: env(safe-area-inset-bottom, 0);
-}
-/* ゴール画像…枠内に収める */
-.pk-field .goal{
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: contain; /* はみ出させない */
-  display:block;
+  overflow: hidden;
 }
 
-.goal {
+/* ゴール画像：枠いっぱいに “収める”（切らない） */
+.pk-field .goal{
   position: absolute;
-  inset: 0;        /* top:0; right:0; bottom:0; left:0 の略 */
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;          /* 画像のトリミング方法。余白が出るなら contain に変更 */
-  display: block;
+  object-fit: contain;
   z-index: 1;
+  pointer-events: none;
 }
 
-/* キーパー：常に“体の中心”が指定位置に来る */
-.keeper {
+/* ─ キーパー（絶対配置で左右に動かす） ─ */
+/* キーパー：高さをゴール高の70%に固定（左右移動は従来通り） */
+.pk-field .keeper{
   position: absolute;
-  bottom: 6%;           /* ゴール内に足が入る位置 */
-  left: 50%;
-  transform: translateX(-50%);
-  width: clamp(120px, 26%, 240px); /* 画面に応じて可変 */
-  transition: left .45s ease;
-  pointer-events: none; /* タップを邪魔しない */
-
-  transition:
-    left .45s cubic-bezier(.2, .8, .2, 1),
-    transform .45s cubic-bezier(.2, .8, .2, 1);
+  bottom: 0;
+  left: 50%; transform: translateX(-50%);
+  height: 70%;           /* ← ゴール高の70% */
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
 }
+/* ─ 左右のポジション（シュート3分割と揃える） ─ */
+/* 画面を 3 等分：中心座標を 1/6, 3/6, 5/6 に置くとちょうど良い */
+.pk-field .keeper.left   { left: 16.6667%; transform: translateX(-50%); }
+.pk-field .keeper.center { left: 50%;      transform: translateX(-50%); }
+.pk-field .keeper.right  { left: 83.3333%; transform: translateX(-50%); }
 
-/* セーブ方向（“中心基準”で左右に寄せる） */
-.keeper.left-save   { left: 20%;  }
-.keeper.center-save { left: 50%;  }
-.keeper.right-save  { left: 80%;  }
+/* 端末向きで器だけ微調整（キーパーは再定義しない！） */
+@media (orientation: portrait){
+  .pk-field{ width: 92vw; max-height: 70dvh; }
+}
+@media (orientation: landscape){
+  .pk-field{ width: min(80vw, 960px); max-height: 80dvh; }
+}
 
 /* シュートゾーン（タップ領域は広めに） */
 /* ３択の設定（z-index最前面にする） */
 .shoot-zone {
   position: absolute;
   bottom: 12%;      /* ← ゴール枠に近い高さ */
-  top: auto;        /* ← 全体を覆わないようにする */
-  width: 33.33%;
   height: 30%;      /* ← 高さを明示的に制御 */
   display: flex;
   align-items: center;
@@ -89,17 +75,24 @@
 
 .shoot-btn-circle {
   width: 100%; height: 100%;
-  display: block;
   background: transparent;
   border: none;
   cursor: pointer;
 }
 
-/* 結果画面の設定：蹴った位置にボールを残す .shoot-zoneに合わせて見やすいレイアウト */
+/* 結果画面の設定：蹴った位置にボールを残す */
+/* シュートボタン内のボール：ゴール高の7%（= キーパー高の10%） */
+.shoot-btn-circle{
+  display:flex; align-items:center; justify-content:center;
+}
+.shoot-btn-circle .shoot-ball{
+  width: clamp(16px, 5cqh, 36px);  /* 最小/最大を保険で。中央値はゴール高の7% */
+  height: auto;
+  pointer-events: none;
+}
+
 .ball-position {
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 33.33%;
+  position: absolute; bottom: 12%; height: 30%;
   display: flex;
   align-items: center;     /* ←縦中央揃え */
   justify-content: center; /* ←横中央揃え */
@@ -109,22 +102,7 @@
 .ball-position.center { left: 33.33%; width: 33.34%; }
 .ball-position.right  { left: 66.67%; width: 33.33%; }
 
-/* === モバイル微調整（小さい画面だけ） === */
-@media (max-width: 480px){
-  .pk-field{
-    /* ちょい縦を控えめにして見切れ防止 */
-    height: min(68dvh, calc(92vw * 0.66));
-  }
-  .keeper{
-    bottom: 8%;                 /* ほんの少し上げる */
-    width: clamp(110px, 28%, 220px);
-  }
-  .shoot-zone{
-    bottom: 14%;                /* ボタンを少し上げて押しやすく */
-    height: 26%;                /* タップ面積を確保 */
-  }
-}
-
+/* === index上のpkのミニスタッツで現在のゴール率を表示 === */
 .pk-mini-stats{
   position: fixed;
   left: 50%;
@@ -221,6 +199,7 @@
   background: #1f2937;  /* hoverで少し明るく */
 }
 
+/* === ✨季節感の演出✨ === */
 /* === 🍂Falling leaves🍂 === */
 .falling-layer {
   pointer-events: none;
@@ -248,7 +227,7 @@
   top: 45px;
   left: 25%;
   transform: translateX(-50%);
-  z-index: 10001;             /* 🍁(9999) より前面に */
+  z-index: 10001;             /* 🍁季節演出(9999) より前面に */
   display: inline-flex; gap: 8px; flex-wrap: wrap;
   background: rgba(17,24,39,.85);
   color: #fff; padding: 8px 12px; border-radius: 9999px;
@@ -272,11 +251,6 @@
 @keyframes streak-pulse {
   0%,100% { transform: translateX(-50%) scale(1); }
   50%     { transform: translateX(-50%) scale(1.06); }
-}
-
-/* スマホは少し小さめに */
-@media (max-width: 480px){
-  .streak-banner{ padding: 6px 12px; font-size: 13px; top: 10px; }
 }
 
 /* === セーブ時：ゴール枠をガタガタ揺らす === */
@@ -313,6 +287,27 @@
 .btn:hover { background: var(--btn-bg-hover); filter: brightness(1.02); box-shadow: 0 10px 24px rgba(16,185,129,.45); }
 .btn:active { transform: translateY(1px); filter: brightness(.98); }
 
+/* 主ボタン：ゲスト用（目立つ色） */
+.btn--primary{
+  background: #0ea5e9;        /* sky-500 */
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(14,165,233,.25);
+}
+.btn--primary:hover{ background:#0284c7; }
+.btn--primary:active{ transform: translateY(2px) scale(.99); }
+
+/* 従ボタン：（色やさしめ） */
+.btn--secondary{
+  margin-top:8px;
+  background: rgba(255,255,255,.8);
+  color: #0f172a;              /* slate-900 */
+  border: 2px solid rgba(15,23,42,.15);
+  box-shadow: 0 4px 14px rgba(0,0,0,.06);
+}
+.btn--secondary:hover{
+  background:#fff; border-color: rgba(15,23,42,.25);
+}
+.btn--secondary:active{ transform: translateY(1px) scale(.99); }
 .btn--ghost {
   background: rgba(17, 24, 39, .65);
   backdrop-filter: blur(6px);
@@ -326,6 +321,10 @@
 
 @media (prefers-reduced-motion: reduce){
   .btn { transition: none; }
+  .falling-layer, .streak-banner.break {
+    animation: none;
+    transition: none;
+  }
 }
 
 /* アイコンのための小さな丸 */

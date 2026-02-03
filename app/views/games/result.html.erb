@@ -21,13 +21,12 @@
 </div>
 
 <div class="pk-field <%= 'shake' unless @result %>">
-  <%= image_tag "pk_goal_2.PNG", class: "goal" %>
-  <%# キーパー（動き用クラスを付与） %>
-  <%= image_tag "keeper_normal.PNG", class: "keeper #{@keeper_choice}-save" %>
+  <%= image_tag "pk_goal_2.png", class: "goal", alt: "" %>
 
-  <%# ★ 蹴った位置にボールを残す（left/center/right に応じて配置クラスを付与） %>
-  <div class="ball-position <%= @game.choice %>">
-      <%= image_tag "soccer_ball.png", size: "100x100" %>
+  <%= image_tag "keeper_normal.png", class: "keeper #{@keeper_choice}", alt: "" %>
+
+  <div class="ball-position <%= @game.choice %>"> <%# 蹴ったボールをその場に残す%>
+    <%= image_tag "soccer_ball.png", size: "100x100" %>
   </div>
 </div>
 
