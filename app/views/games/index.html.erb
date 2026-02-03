@@ -1,6 +1,7 @@
 <% unless user_signed_in? %>
   <div style="text-align:center; margin: 8px 0 16px;">
-    <%= button_to "👤ゲストですぐ遊ぶ", guest_sign_in_path, method: :post, class: "btn" %>
+    <%= button_to "👤体験入門(ゲストですぐ遊ぶ)", guest_sign_in_path, method: :post, class: "btn--secondary" %>
+    <%= link_to "🔰入門希望者はこちら(新規ユーザー登録)", new_user_registration_path, class: "btn" %>
   </div>
 <% end %>
 
@@ -12,23 +13,22 @@
 
 <p class="kick-prompt">どこに蹴る？</p>
 <div class="pk-field">
-  <%= image_tag "pk_goal_2.PNG", class: "goal" %>
-  <%= image_tag "keeper_normal.PNG", class: "keeper #{@keeper_choice}-save" %>
+  <%= image_tag "pk_goal_2.png", class: "goal", alt: "" %>
 
-<div class="shoot-zone left">
-    <%= button_to image_tag("soccer_ball.png", size: "100x100"),
-        shoot_games_path(choice: "left"),
-        method: :post, class: "shoot-btn-circle" %>
+  <%= image_tag "keeper_normal.png", class: "keeper #{@keeper_choice}", alt: "" %>
+
+  <div class="shoot-zone left">
+  <%= button_to image_tag("soccer_ball.png", size: "100x100"),
+      shoot_games_path(choice: "left"), method: :post, class: "shoot-btn-circle" %>
   </div>
   <div class="shoot-zone center">
-    <%= button_to image_tag("soccer_ball.png", size: "100x100"),
-        shoot_games_path(choice: "center"),
-        method: :post, class: "shoot-btn-circle" %>
+  <%= button_to image_tag("soccer_ball.png", size: "100x100"),
+      shoot_games_path(choice: "center"), method: :post, class: "shoot-btn-circle" %>
   </div>
   <div class="shoot-zone right">
-    <%= button_to image_tag("soccer_ball.png", size: "100x100"),
-        shoot_games_path(choice: "right"),
-        method: :post, class: "shoot-btn-circle" %>
+  <%= button_to image_tag("soccer_ball.png", size: "100x100"),
+      shoot_games_path(choice: "right"), method: :post, class: "shoot-btn-circle" %>
+  </div>
 </div>
 
 <div class="pk-mini-stats">

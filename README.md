@@ -3,7 +3,7 @@
 とてもシンプルなPK ゲームアプリです。君は何連ゴールできるかな？🔥
 
 ## 🎯 デモ
-👉 [https://pkdojo.onrender.com](https://pkdojo.onrender.com)
+👉 [pk_dojo](https://applicable-eada-hope1999-a0e4dcf6.koyeb.app/)
 
 ## 🎮 遊び方
 1. ログインして「PK挑戦」ページへ
@@ -31,11 +31,11 @@
 - ランキング機能（挑戦回数・最高連続ゴール数・ゴール成功率）
 - 季節ごとの演出（冬: ❄️, 春: 🌸, 夏: ☀️）
 - Xへの＃（ハッシュタグ）付き投稿機能
-- 連続ゴール数に応じた、隠しコメント機能　など
+- 連続ゴール数に応じた、隠しコメント機能や演出 など
 
 ---
 
 ### ハッシュタグ投稿例
 あなたの最高記録は⚪︎連ゴール！
-http://localhost:3000/
+https://pk-dojo.onrender.com/
 #pk_dojo #スポーツの秋 #RUNTEQ
