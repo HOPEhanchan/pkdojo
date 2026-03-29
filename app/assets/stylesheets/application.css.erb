@@ -327,12 +327,6 @@
   }
 }
 
-/* アイコンのための小さな丸 */
-{
-  display:inline-block; width:8px; height:8px; border-radius:50%;
-  background: rgba(255,255,255,.9);
-}
-
 /* === Hero（見出しの装飾） ======================== */
 .hero {
   width: min(92vw, 900px);
@@ -386,4 +380,197 @@
 /* === （X_posts） ======================== */
 .action-buttons{
   display:flex; flex-direction:column; gap:8px; align-items:center; justify-content:center;
+}
+
+/* ================================
+  Fusuma Animation
+================================ */
+
+.fusuma-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: flex;
+  overflow: hidden;
+  pointer-events: none;
+  background: rgba(20, 16, 10, 0.10);
+}
+
+.fusuma-panel {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  flex-shrink: 0;
+  transition: transform 0.95s cubic-bezier(.77,0,.175,1);
+}
+
+.fusuma-inner {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+
+  /* 和紙っぽい下地 + 陰影 */
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.22), rgba(0,0,0,0.04)),
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.20), transparent 35%),
+    linear-gradient(to top, rgba(120, 120, 120, 0.08), transparent 25%),
+    #c9b191;
+
+  border: 14px solid #3b2d24;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.15),
+    inset 0 0 18px rgba(0,0,0,0.08);
+}
+
+/* 真ん中の合わせ目を少し細く */
+.fusuma-left .fusuma-inner {
+  border-right-width: 5px;
+}
+
+.fusuma-right .fusuma-inner {
+  border-left-width: 5px;
+}
+
+/* 襖の丸引手 */
+.fusuma-handle {
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 35%, #6c5a4c, #3d3027 75%);
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.2),
+    0 1px 2px rgba(0,0,0,0.18);
+}
+
+.fusuma-left .fusuma-handle {
+  right: 26px;
+}
+
+.fusuma-right .fusuma-handle {
+  left: 26px;
+}
+
+/* 上部のしめ縄風の装飾 */
+.fusuma-inner::before {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: 8%;
+  width: 84%;
+  height: 8px;
+  border-radius: 999px;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #9d8a78 0 8px,
+      #c8bbab 8px 16px
+    );
+  opacity: 0.8;
+}
+
+/* 垂れ飾りっぽい房 */
+.fusuma-inner::after {
+  content: "";
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  width: 14px;
+  height: 64px;
+  transform: translateX(-50%);
+  background:
+    linear-gradient(to bottom, #d8d0c5 0 20px, #c5b6a2 20px 24px, #d8d0c5 24px 100%);
+  clip-path: polygon(35% 0, 65% 0, 70% 18%, 100% 100%, 0 100%, 30% 18%);
+  opacity: 0.55;
+}
+
+/* 左右の竹っぽい意匠 */
+.fusuma-left .fusuma-inner .fusuma-handle::before,
+.fusuma-right .fusuma-inner .fusuma-handle::before {
+  content: "";
+  position: absolute;
+  width: 88px;
+  height: 140px;
+  top: -120px;
+  opacity: 0.18;
+  background:
+    linear-gradient(135deg, transparent 30%, #4f5f45 30% 34%, transparent 34%),
+    linear-gradient(110deg, transparent 45%, #4f5f45 45% 49%, transparent 49%),
+    linear-gradient(145deg, transparent 56%, #4f5f45 56% 60%, transparent 60%);
+}
+
+.fusuma-left .fusuma-inner .fusuma-handle::before {
+  right: -36px;
+}
+
+.fusuma-right .fusuma-inner .fusuma-handle::before {
+  left: -36px;
+  transform: scaleX(-1);
+}
+
+/* 下部の山影 */
+.fusuma-panel::before {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 6%;
+  height: 18%;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(120,120,120,0.18), transparent 45%),
+    radial-gradient(circle at 55% 75%, rgba(120,120,120,0.16), transparent 42%),
+    radial-gradient(circle at 82% 82%, rgba(120,120,120,0.18), transparent 44%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* タイトル */
+.fusuma-title {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: 'Yuji Syuku', serif;
+  font-size: clamp(42px, 8vw, 86px);
+  letter-spacing: 0.08em;
+  color: #1b1b1b;   /* 墨色 */
+  text-shadow:
+    0 2px 6px rgba(0,0,0,0.22),
+    0 0 18px rgba(255,255,255,0.08);
+  opacity: 0;
+  transform: translateY(120px) scale(0.98);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+
+/* タイトル表示 */
+.fusuma-overlay.show-title .fusuma-title {
+  opacity: 1;
+  transform: translateY(45px) scale(1);
+}
+
+/* タイトル非表示 */
+.fusuma-overlay.hide-title .fusuma-title {
+  opacity: 0;
+  transform: translateY(45px) scale(0.95);
+}
+
+/* 開く */
+.fusuma-overlay.is-open .fusuma-left {
+  transform: translateX(-100%);
+}
+
+.fusuma-overlay.is-open .fusuma-right {
+  transform: translateX(100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fusuma-panel,
+  .fusuma-title {
+    transition: none;
+  }
 }
