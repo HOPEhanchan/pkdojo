@@ -3,9 +3,12 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show]
 
   def index
+    @show_fusuma = session[:fusuma_shown].blank?
+    session[:fusuma_shown] = true if @show_fusuma
+
     if user_signed_in?
       @games = current_user.games.order(created_at: :desc)
-
+git
       total = @games.size
       goals = @games.where(result: true).count
       saves = total - goals

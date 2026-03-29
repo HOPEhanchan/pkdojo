@@ -1,3 +1,5 @@
+<%= render "games/fusuma" if @show_fusuma %>
+
 <% unless user_signed_in? %>
   <div style="text-align:center; margin: 8px 0 16px;">
     <%= button_to "👤体験入門(ゲストですぐ遊ぶ)", guest_sign_in_path, method: :post, class: "btn--secondary" %>
