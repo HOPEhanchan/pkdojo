@@ -8,7 +8,6 @@ class GamesController < ApplicationController
 
     if user_signed_in?
       @games = current_user.games.order(created_at: :desc)
-git
       total = @games.size
       goals = @games.where(result: true).count
       saves = total - goals
